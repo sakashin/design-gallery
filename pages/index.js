@@ -1,69 +1,47 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Layout from '../components/layout'
+import utilStyles from '../styles/utils.module.css'
+import { getSortedSitesData } from '../lib/sites'
+import Link from 'next/link';
 
-export default function Home() {
+export default function Home({ allSitesData }) {
+  console.log(allSitesData);
   return (
-    <div className={styles.container}>
+    <Layout home>
       <Head>
         <title>Create Next App</title>
         <meta name="description" content="shopify design garalley" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
-    </div>
+      <ul className={utilStyles.list}>
+          {allSitesData.map(({ id, internal, category, title, url, date, maincolor, subcolor, tags, remarks, thumbnailUrl }) => (
+            <li className={utilStyles.listItem} key={id}>
+              <figure>
+                <div>
+                <a href={url} target="_blank" rel="noopener"><Image src={thumbnailUrl} alt={title} width={300} height={500} /></a>
+                  <div className="post_inner">
+                    <p className="post_inner--date">{date}</p>
+                    <div className="post_inner--description"><p>{remarks}</p></div>
+                    <p className="post_inner--category">{category}</p>
+                    <p className="post_inner--detail"><a href={url} aria-label="Detail"></a></p>
+                </div>	
+                </div>
+                <figcaption className="post_title"><h3><Link href={`/sites/${id}`}><a>{ title }</a></Link></h3></figcaption>
+                <p className="post_url">{url}</p>
+              </figure>
+            </li>
+          ))}
+        </ul>
+    </Layout>
   )
+}
+
+export async function getStaticProps() {
+  const allSitesData = getSortedSitesData()
+  return {
+    props: {
+      allSitesData
+    }
+  }
 }
