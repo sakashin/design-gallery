@@ -19,13 +19,13 @@ export default function Home({ allSitesData }) {
             <li className={utilStyles.listItem} key={id}>
               <figure>
                 <div>
-                <a href={url} target="_blank" rel="noreferrer"><Image src={thumbnailUrl} alt={title} width={300} height={500} /></a>
+                <a href={url} target="_blank" rel="noreferrer"><img src={thumbnailUrl} alt={title} width={300} height={500} /></a>
                   <div className="post_inner">
                     <p className="post_inner--date">{date}</p>
                     <div className="post_inner--description"><p>{remarks}</p></div>
                     <p className="post_inner--category">{category}</p>
                     <p className="post_inner--detail"><a href={url} aria-label="Detail"></a></p>
-                </div>	
+                  </div>
                 </div>
                 <figcaption className="post_title"><h3><Link href={`/sites/${id}`}><a>{ title }</a></Link></h3></figcaption>
                 <p className="post_url">{url}</p>
