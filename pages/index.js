@@ -19,7 +19,7 @@ export default function Home({ allSitesData }) {
             <li className={utilStyles.listItem} key={id}>
               <figure>
                 <div>
-                <a href={url} target="_blank" rel="noopener"><Image src={thumbnailUrl} alt={title} width={300} height={500} /></a>
+                <a href={url} target="_blank" rel="noreferrer"><Image src={thumbnailUrl} alt={title} width={300} height={500} /></a>
                   <div className="post_inner">
                     <p className="post_inner--date">{date}</p>
                     <div className="post_inner--description"><p>{remarks}</p></div>
