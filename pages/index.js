@@ -12,7 +12,6 @@ import { nameJtoEColor } from '../components/nameJtoE'
 export default function Home({ notionTableSchema, notionTableData }) {
   const router = useRouter()
   const routerQueries = router.query; // クエリパラメータを取得
-  console.log(notionTableData);
 
   // 持ち越すパラメータから、値が空のものは削除
   const carryOverQueris = ((routerQueries) => {
