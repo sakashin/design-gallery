@@ -323,6 +323,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
           </ul>
         </sectiion>
       </nav>
+      {Object.keys(routerQueries).length>0 ? (<div className={homeStyles.results}>検索結果：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>) : <div className={homeStyles.results}>登録件数：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>}
       <ul className={homeStyles.grid}>
           {sortedFilterdAllSiteData.map(({ id, createdTime, area, category, store, url, maincolor, subcolor, creator, tags, thumbnailUrl, remarks }) => (
             <li className={homeStyles.card} key={id}>
