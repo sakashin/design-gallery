@@ -86,6 +86,8 @@ export default function Home({ notionTableSchema, notionSitesData }) {
           return elm['name']
         })
         return tempArray;
+      } else {
+        return []
       }
     })(objTags['multi_select']['options']);
 
@@ -172,13 +174,15 @@ export default function Home({ notionTableSchema, notionSitesData }) {
 
     // タグ
     const tags = ((target) => {
-      if (target.length > 0) {
-        const names = target.map(element => element['name'])
-        return names;
-      } else {
-        return null;
+      if (target !== undefined) {
+        if (target.length > 0) {
+          const names = target.map(element => element['name'])
+          return names;
+        } else {
+          return [];
+        }
       }
-    })(objTags['multi_select']);
+    })(objTags);
     
     // サムネイル
     // まだAPIで画像ファイルを取得することができない
@@ -215,8 +219,6 @@ export default function Home({ notionTableSchema, notionSitesData }) {
       remarks
     }
   })
-
-  console.log(extractedNotionSitesData.length)
 
   // 表示するデータをフィルタリング
   const filterdAllSiteData = extractedNotionSitesData.filter((siteData) => {
@@ -336,7 +338,7 @@ export default function Home({ notionTableSchema, notionSitesData }) {
                 <div className={homeStyles.tags}>{
                   tags 
                     ? tags.map((tag) => {
-                      return <div key={tag} className={homeStyles.tag}>{tag}</div>
+                      return <div key={tag嘘} className={homeStyles.tag}>{tag}</div>
                     })
                     : null
                   }</div>
