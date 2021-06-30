@@ -9,9 +9,10 @@ import { useRouter } from 'next/router'
 import Date from '../components/date'
 import { nameJtoEColor } from '../components/nameJtoE'
 
-export default function Home({ notionTableSchema, notionSitesData }) {
+export default function Home({ notionTableSchema, notionTableData }) {
   const router = useRouter()
   const routerQueries = router.query; // クエリパラメータを取得
+  console.log(notionTableData);
 
   // 持ち越すパラメータから、値が空のものは削除
   const carryOverQueris = ((routerQueries) => {
@@ -103,7 +104,7 @@ export default function Home({ notionTableSchema, notionSitesData }) {
   })(notionTableSchema.properties);
 
   // notionのデータから必要な部分だけを抜き出して表示用のオブジェクトに整形
-  const extractedNotionSitesData = notionSitesData.results.map((site) => {
+  const extractedNotionTableData = notionTableData.map((site) => {
     // id、登録日
     const {id, created_time: createdTime, properties} = site;
 
@@ -221,7 +222,7 @@ export default function Home({ notionTableSchema, notionSitesData }) {
   })
 
   // 表示するデータをフィルタリング
-  const filterdAllSiteData = extractedNotionSitesData.filter((siteData) => {
+  const filterdAllSiteData = extractedNotionTableData.filter((siteData) => {
     let flug = true;
     for (let k in routerQueries) {
       if (routerQueries[k]) {
@@ -367,10 +368,12 @@ export async function getStaticProps() {
         'Authorization': `Bearer ${notionToken}`,
         'Content-Type': 'application/json',
         'Notion-Version': '2021-05-13'
-  }})
+    }
+  })
   .then((r) => r.json());
 
-  // notionデータを取得
+  // notionデータを取得（１度に100件しかとってこれない）
+  /*
   const notionSitesData = await fetch(repoUrl+'/query', {
     method: 'POST',
     headers: {
@@ -378,13 +381,37 @@ export async function getStaticProps() {
         'Authorization': `Bearer ${notionToken}`,
         'Content-Type': 'application/json',
         'Notion-Version': '2021-05-13'
-  }})
+    },
+    body: JSON.stringify({page_size: 15})
+  })
   .then((r) => r.json());
+  */
+
+  // notionデータを取得　その２（全て取得する）
+  let notionTableData = []
+  let hasMore = true           // 次のページがあるかどうか
+  let startCursor = undefined　// カーソル
+  while (hasMore) {  // 次のページがあるかぎり実行
+    const getNotionTableData = await fetch(repoUrl+'/query', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${notionToken}`,
+            'Content-Type': 'application/json',
+            'Notion-Version': '2021-05-13'
+        },
+        body: JSON.stringify({ start_cursor: startCursor }) // start_cursor 付きのデータを送信
+      })
+    const response = await getNotionTableData.json();  // レスポンスを取得
+    startCursor = response.next_cursor               // カーソルを更新
+    hasMore = response.has_more                      // カーソルを更新
+    notionTableData = [...notionTableData, ...response.results]            // これまでのデータとマージ
+  }
 
   return {
     props: {
       notionTableSchema,
-      notionSitesData
+      notionTableData
     }
   }
 }

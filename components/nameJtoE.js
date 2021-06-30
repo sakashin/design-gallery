@@ -26,4 +26,3 @@ export function nameJtoEColor(colorName) {
           return null;
       }
 }
-
