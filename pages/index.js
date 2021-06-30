@@ -336,7 +336,7 @@ export default function Home({ notionTableSchema, notionSitesData }) {
                 <div className={homeStyles.tags}>{
                   tags 
                     ? tags.map((tag) => {
-                      return <div className={homeStyles.tag}>{tag}</div>
+                      return <div key={tag} className={homeStyles.tag}>{tag}</div>
                     })
                     : null
                   }</div>
