@@ -9,9 +9,12 @@ import { useRouter } from 'next/router'
 import Date from '../components/date'
 import { nameJtoEColor } from '../components/nameJtoE'
 import useSWR from 'swr'
+import { useState } from 'react';
 
 
 export default function Home({ notionTableSchema, notionTableData }) {
+  const [device, setDevice] = useState('pc');
+
   // クエリパラメータを取得
   const router = useRouter()
   const routerQueries = router.query;
@@ -190,6 +193,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
     // サムネイル
     // まだAPIで画像ファイルを取得することができない
     // https://stackoverflow.com/questions/67551832/notion-api-how-to-get-the-url-of-uploaded-files
+    /*
     const thumbnailUrl = ((target) => {
       if (target.length > 0) {
         return target[0]['name'];
@@ -197,6 +201,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
         return null;
       }
     })(objThumbnail['files']);
+    */
 
     // 備考
     const remarks = ((target) => {
@@ -218,7 +223,6 @@ export default function Home({ notionTableSchema, notionTableData }) {
       subcolor,
       creator,
       tags,
-      thumbnailUrl,
       remarks
     }
   })
@@ -227,19 +231,21 @@ export default function Home({ notionTableSchema, notionTableData }) {
   const filterdAllSiteData = extractedNotionTableData.filter((siteData) => {
     let flug = true;
     for (let k in routerQueries) {
-      if (routerQueries[k]) {
-        const propertie = siteData[k];
-        if(typeof propertie === 'object') {
-          if (propertie !== null) {
-            const tempArray = propertie.filter((elm) => elm === routerQueries[k]);
-            if (tempArray.length == 0) flug = false;
+      if (k !== 'device') {
+        if (routerQueries[k]) {
+          const propertie = siteData[k];
+          if(typeof propertie === 'object') {
+            if (propertie !== null) {
+              const tempArray = propertie.filter((elm) => elm === routerQueries[k]);
+              if (tempArray.length == 0) flug = false;
+            } else {
+              flug = false;
+            }
           } else {
-            flug = false;
-          }
-        } else {
-          
-          if (propertie !== routerQueries[k]) {
-            flug = false;
+            
+            if (propertie !== routerQueries[k]) {
+              flug = false;
+            }
           }
         }
       }
@@ -327,12 +333,26 @@ export default function Home({ notionTableSchema, notionTableData }) {
         </sectiion>
       </nav>
       {Object.keys(routerQueries).length>0 ? (<div className={homeStyles.results}>検索結果：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>) : <div className={homeStyles.results}>登録件数：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>}
+      <div>
+        <ul className={classnames(homeStyles.flexBox)}>
+          <li className={[homeStyles.optionSelector, routerQueries['device']==='sp' ? '' : homeStyles.isSelected].join(' ')}>
+            <Link href={{pathname: '/'}}>PC</Link>
+          </li>
+          <li className={[homeStyles.optionSelector, routerQueries['device']==='sp' ? homeStyles.isSelected : ''].join(' ')}>
+            <Link href={{pathname: '/', query: { ...carryOverQueris, device: routerQueries['device']==='sp'?undefined:'sp'}}}>SP</Link>
+          </li>
+        </ul>
+      </div>
       <ul className={homeStyles.grid}>
           {sortedFilterdAllSiteData.map(({ id, createdTime, area, category, store, url, maincolor, subcolor, creator, tags, thumbnailUrl, remarks }) => (
             <li className={homeStyles.card} key={id}>
               <a href={url} target="_blank" rel="noreferrer">
               <figure>
-                <div className={homeStyles.thumbnail}><div className={homeStyles.inner}>サムネイル<br />{thumbnailUrl}</div></div>
+                <div className={homeStyles.thumbnail}><div className={homeStyles.inner}>
+                  {
+                      routerQueries['device']==='sp' ? <img src={'https://design-gallery.s3.ap-northeast-1.amazonaws.com/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} /> : <img src={'https://design-gallery.s3.ap-northeast-1.amazonaws.com/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} />
+                  }
+                </div></div>
                 <div className={homeStyles.area}>{area}</div>
                 <div className={homeStyles.category}>{category}</div>
                 <div className={homeStyles.store}>{store}</div>
