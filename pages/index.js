@@ -8,10 +8,13 @@ import homeStyles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
 import Date from '../components/date'
 import { nameJtoEColor } from '../components/nameJtoE'
+import useSWR from 'swr'
+
 
 export default function Home({ notionTableSchema, notionTableData }) {
+  // クエリパラメータを取得
   const router = useRouter()
-  const routerQueries = router.query; // クエリパラメータを取得
+  const routerQueries = router.query;
 
   // 持ち越すパラメータから、値が空のものは削除
   const carryOverQueris = ((routerQueries) => {
@@ -412,7 +415,8 @@ export async function getStaticProps() {
     props: {
       notionTableSchema,
       notionTableData
-    }
+    },
+    revalidate: 60, // ここを追加
   }
 }
 
