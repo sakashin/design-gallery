@@ -24,21 +24,12 @@ export default function Layout({ children, home }) {
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <header className={styles.header}>
-          {home ? (
-            <>
-                <h2 className={utilStyles.headingLg}>shopifyで作成されたサイトのクリップ集</h2>
-                <h1 className={utilStyles.heading2Xl}>{siteTitle}</h1>
-            </>
-          ) : (
-            <>
-                <h2 className={utilStyles.headingLg}>shopifyで作成されたサイトのクリップ集</h2>
-                <h1 className={utilStyles.headingLg}>
-                    <Link href="/">
-                    <a className={utilStyles.colorInherit}>{siteTitle}</a>
-                    </Link>
-                </h1>
-            </>
-          )}
+          <h2 className={utilStyles.headingLg}>Shopifyで作成されたサイトのクリップ集</h2>
+          <h1 className={utilStyles.headingLg}>
+              <Link href="/">
+              <a className={utilStyles.colorInherit}>{siteTitle}</a>
+              </Link>
+          </h1>
         </header>
         <main>{children}</main>
         {!home && (
