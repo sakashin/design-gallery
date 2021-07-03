@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link';
-import Image from 'next/image'
+import ImgOrImage from '../components/image'
 import Layout from '../components/layout'
 import classnames from "classnames";
 import utilStyles from '../styles/utils.module.css'
@@ -8,11 +8,9 @@ import homeStyles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
 import Date from '../components/date'
 import { nameJtoEColor } from '../components/nameJtoE'
-import useSWR from 'swr'
-import { useState } from 'react';
-
 
 export default function Home({ notionTableSchema, notionTableData }) {
+
   // クエリパラメータを取得
   const router = useRouter()
   const routerQueries = router.query;
@@ -329,18 +327,18 @@ export default function Home({ notionTableSchema, notionTableData }) {
           ))}
           </ul>
         </sectiion>
-        <section>
-        <ul className={classnames(homeStyles.flexBox)}>
-          <li className={[homeStyles.optionSelector, routerQueries['device']==='sp' ? '' : homeStyles.isSelected].join(' ')}>
+      </nav>
+      <div className={homeStyles.results}>
+        {Object.keys(routerQueries).length>0 ? (<div className={homeStyles.nums}>検索結果：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>) : <div className={homeStyles.nums}>登録件数：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>}
+        <ul>
+          <li className={[homeStyles.deviceSwicher, homeStyles.deviceSwicherPC, routerQueries['device']==='sp' ? '' : homeStyles.isSelected].join(' ')}>
             <Link href={{pathname: '/'}}>PC</Link>
           </li>
-          <li className={[homeStyles.optionSelector, routerQueries['device']==='sp' ? homeStyles.isSelected : ''].join(' ')}>
+          <li className={[homeStyles.deviceSwicher, homeStyles.deviceSwicherSP, routerQueries['device']==='sp' ? homeStyles.isSelected : ''].join(' ')}>
             <Link href={{pathname: '/', query: { ...carryOverQueris, device: routerQueries['device']==='sp'?undefined:'sp'}}}>SP</Link>
           </li>
         </ul>
-        </section>
-      </nav>
-      {Object.keys(routerQueries).length>0 ? (<div className={homeStyles.results}>検索結果：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>) : <div className={homeStyles.results}>登録件数：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>}
+      </div>
       <ul className={homeStyles.grid}>
           {sortedFilterdAllSiteData.map(({ id, createdTime, area, category, store, url, maincolor, subcolor, creator, tags, thumbnailUrl, remarks }) => (
             <li className={homeStyles.card} key={id}>
@@ -348,7 +346,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
               <figure>
                 <div className={homeStyles.thumbnail}><div className={homeStyles.inner}>
                   {
-                      routerQueries['device']==='sp' ? <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} width={298} height={568} loading="lazy" /> : <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} width={298} height={223} loading="lazy" />
+                      routerQueries['device']==='sp' ? <ImgOrImage src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} width={298} height={568} /> : <ImgOrImage src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} width={298} height={223} />
                   }
                 </div></div>
                 <div className={homeStyles.area}>{area}</div>

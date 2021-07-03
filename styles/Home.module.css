@@ -103,6 +103,43 @@
 .results {
   margin-top: 20px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.results .nums {
+  display: inline-flex;
+  align-items: center;
+}
+
+.results .deviceSwicher {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 2px 20px;
+}
+
+.results .deviceSwicherPC {
+  border-radius: 5px 0 0 5px;
+  border-top: 1px solid #999;
+  border-left: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+.results .deviceSwicherSP {
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #999;
+}
+
+.results .isSelected {
+  background-color: #999;
+}
+.results .deviceSwicher a {
+  display: inline-block;
+  text-decoration: none;
+  color: #AAA;
+}
+.results .isSelected a {
+  color: #FFF;
 }
 
 .flexBox {
