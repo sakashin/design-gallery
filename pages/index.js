@@ -329,7 +329,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
         </sectiion>
       </nav>
       <div className={homeStyles.results}>
-        {Object.keys(routerQueries).length>0 ? (<div className={homeStyles.nums}>検索結果：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>) : <div className={homeStyles.nums}>登録件数：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>}
+        <div className={homeStyles.nums}><strong>{sortedFilterdAllSiteData.length}</strong>件</div>
         <ul>
           <li className={[homeStyles.deviceSwicher, homeStyles.deviceSwicherPC, routerQueries['device']==='sp' ? '' : homeStyles.isSelected].join(' ')}>
             <Link href={{pathname: '/', query: { ...carryOverQueris, device: routerQueries['device']!=='pc'?'pc':''}}}>PC</Link>
