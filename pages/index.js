@@ -332,10 +332,10 @@ export default function Home({ notionTableSchema, notionTableData }) {
         {Object.keys(routerQueries).length>0 ? (<div className={homeStyles.nums}>検索結果：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>) : <div className={homeStyles.nums}>登録件数：<strong>{sortedFilterdAllSiteData.length}</strong>件</div>}
         <ul>
           <li className={[homeStyles.deviceSwicher, homeStyles.deviceSwicherPC, routerQueries['device']==='sp' ? '' : homeStyles.isSelected].join(' ')}>
-            <Link href={{pathname: '/'}}>PC</Link>
+            <Link href={{pathname: '/', query: { ...carryOverQueris, device: routerQueries['device']!=='pc'?'pc':''}}}>PC</Link>
           </li>
           <li className={[homeStyles.deviceSwicher, homeStyles.deviceSwicherSP, routerQueries['device']==='sp' ? homeStyles.isSelected : ''].join(' ')}>
-            <Link href={{pathname: '/', query: { ...carryOverQueris, device: routerQueries['device']==='sp'?undefined:'sp'}}}>SP</Link>
+            <Link href={{pathname: '/', query: { ...carryOverQueris, device: routerQueries['device']!=='sp'?'sp':''}}}>SP</Link>
           </li>
         </ul>
       </div>
@@ -346,7 +346,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
               <figure>
                 <div className={homeStyles.thumbnail}><div className={homeStyles.inner}>
                   {
-                      routerQueries['device']==='sp' ? <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} width={298} height={568} /> : <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} width={298} height={223} />
+                      routerQueries['device']==='sp' ? <img src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} width={298} height={568} /> : <img src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} width={298} height={223} />
                   }
                 </div></div>
                 <div className={homeStyles.area}>{area}</div>
