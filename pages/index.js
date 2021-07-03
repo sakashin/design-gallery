@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link';
-import ImgOrImage from '../components/image'
+import Image from 'next/image'
 import Layout from '../components/layout'
 import classnames from "classnames";
 import utilStyles from '../styles/utils.module.css'
