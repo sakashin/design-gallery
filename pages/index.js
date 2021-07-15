@@ -346,7 +346,7 @@ export default function Home({ notionTableSchema, notionTableData }) {
               <figure>
                 <div className={homeStyles.thumbnail}><div className={homeStyles.inner}>
                   {
-                      routerQueries['device']==='sp' ? <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} width={298} height={568} /> : <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} width={298} height={223} />
+                      /*routerQueries['device']==='sp' ? <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '_m.png'} alt={store} width={298} height={568} /> : <Image src={'https://s3-ap-northeast-1.amazonaws.com/design-gallery/images/'+url.substring(8,url.indexOf('/', 8)) + '.png'} alt={store} width={298} height={223} />*/
                   }
                 </div></div>
                 <div className={homeStyles.area}>{area}</div>

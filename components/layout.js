@@ -3,7 +3,7 @@ import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
-export const siteTitle = "ShopifyDesignClip";
+export const siteTitle = "Shopify Design Clip";
 
 export default function Layout({ children, home }) {
     return (
@@ -30,6 +30,9 @@ export default function Layout({ children, home }) {
               <a className={utilStyles.colorInherit}>{siteTitle}</a>
               </Link>
           </h1>
+          <p>
+            ※サーバリソース消費を無料利用の範囲内に収めるため、現在サムネイル表示を一時停止しています。環境移行が完了次第再開します。
+          </p>
         </header>
         <main>{children}</main>
         {!home && (
